@@ -4,16 +4,19 @@
   "description": "The backend development challenge",
   "main": "index.js",
   "scripts": {
-    "dev": "debug=* NODE_PATH=./src ts-node-dev --respawn ./src/index.ts",
+    "dev": "NODE_ENV=development debug=* NODE_PATH=./src ts-node-dev --respawn ./src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Gwin Nguyen",
   "license": "ISC",
   "dependencies": {
+    "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "cors": "^2.8.5",
     "express": "^4.19.2",
     "helmet": "^7.1.0",
+    "http-status-codes": "^2.3.0",
+    "jsonwebtoken": "^9.0.2",
     "password-hash": "^1.2.2",
     "pg": "^8.11.5",
     "typeorm": "^0.3.20",
@@ -22,6 +25,7 @@
   "devDependencies": {
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.6",
     "@types/password-hash": "^1.2.24",
     "@types/uuid": "^9.0.8",
     "@typescript-eslint/eslint-plugin": "^7.11.0",
