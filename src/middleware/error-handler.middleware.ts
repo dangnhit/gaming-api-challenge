@@ -1,4 +1,5 @@
-import { Request, Response, NextFunction } from 'express';
+import { NextFunction, Request, Response } from 'express';
+import { StatusCodes } from 'http-status-codes';
 import { AppError } from 'utils/response';
 
 export const errorHandler = (err: AppError, req: Request, res: Response, next: NextFunction) => {
@@ -15,7 +16,7 @@ export const errorHandler = (err: AppError, req: Request, res: Response, next: N
     res.status(statusCode).json({
       status: 'fail',
       statusCode,
-      message: statusCode === 500 ? 'Internal Server Error' : message,
+      message: statusCode === StatusCodes.INTERNAL_SERVER_ERROR ? 'Internal Server Error' : message,
     });
   } else {
     res.status(statusCode).json({

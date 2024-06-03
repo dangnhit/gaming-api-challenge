@@ -26,4 +26,9 @@ export class BaseEntity extends TypeOrmBaseEntity {
   verifyPassword(password: string, hashedPassword: string): boolean {
     return verify(password, hashedPassword);
   }
+
+  toJSON(): any {
+    if (this['password'] !== undefined) this['password'] = undefined;
+    return this;
+  }
 }

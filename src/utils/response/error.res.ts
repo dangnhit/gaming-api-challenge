@@ -1,3 +1,5 @@
+import { StatusCodes } from 'http-status-codes';
+
 class AppError extends Error {
   public statusCode: number;
   public isOperational: boolean;
@@ -13,13 +15,13 @@ class AppError extends Error {
 
 class NotFoundError extends AppError {
   constructor(message = 'Not Found') {
-    super(message, 404);
+    super(message, StatusCodes.NOT_FOUND);
   }
 }
 
 class BadRequestError extends AppError {
   constructor(message = 'Bad Request') {
-    super(message, 400);
+    super(message, StatusCodes.BAD_REQUEST);
   }
 }
 
