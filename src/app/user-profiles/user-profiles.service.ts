@@ -7,10 +7,10 @@ import { AppError, NotFoundError } from 'utils/response';
 import { Relation } from 'utils/types';
 
 const userProfileRepository = AppDataSource.getRepository(UserProfile);
-const useRepository = AppDataSource.getRepository(User);
+const userRepository = AppDataSource.getRepository(User);
 
 export const create = async ({ fullName, displayName, bio, yob }: CreateUserProfileDto, userId: string) => {
-  const user = await useRepository.findOne({ where: { id: userId, isActive: true } });
+  const user = await userRepository.findOne({ where: { id: userId, isActive: true } });
   if (!user) {
     throw new NotFoundError('User not found');
   }
@@ -43,6 +43,23 @@ export const findOne = async (
   }
 
   return profile;
+};
+
+export const findOneByUser = async (userId: string) => {
+  const user = await userRepository.findOne({
+    where: { id: userId, isActive: true },
+    relations: ['profile'],
+  });
+
+  if (!user) {
+    throw new NotFoundError('User not found');
+  }
+
+  if (!user.profile) {
+    throw new NotFoundError('User profile not found');
+  }
+
+  return user.profile;
 };
 
 export const update = async (profile: UserProfile) => {

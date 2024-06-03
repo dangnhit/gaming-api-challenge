@@ -1,3 +1,4 @@
+import { PaginationQueryDto } from 'dto/pagination';
 import { CreateUserItemDto } from 'dto/user-items';
 import { StatusCodes } from 'http-status-codes';
 import { AppDataSource } from 'orm/connection';
@@ -37,7 +38,7 @@ export const create = async ({ quantity, virtualItemId }: CreateUserItemDto, use
   newItem.createdAt = newItem.generateDateNow();
   newItem.updatedAt = newItem.generateDateNow();
 
-  return await virtualItemRepository.save(newItem);
+  return await userItemRepository.save(newItem);
 };
 
 export const findOne = async (
@@ -62,4 +63,25 @@ export const remove = async (id: string) => {
   const item = await findOne({ id, isActive: true });
 
   await userItemRepository.remove(item);
+};
+
+export const find = async (dto: PaginationQueryDto, userId: string) => {
+  const page = parseInt(dto.currentPage as string) || 1;
+  const limit = parseInt(dto.limit as string) || 10;
+  const offset = (page - 1) * limit;
+
+  const [users, total] = await userItemRepository.findAndCount({
+    where: {
+      user: {
+        id: userId,
+      },
+    },
+    take: limit,
+    skip: offset,
+    order: {
+      [dto.sortBy]: dto.orderBy,
+    },
+  });
+
+  return { users, total };
 };

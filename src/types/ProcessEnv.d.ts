@@ -8,5 +8,7 @@ declare namespace NodeJS {
     DB_DB: string;
     JWT_SECRET: string;
     JWT_EXPIRATION: string;
+    STORAGE_BUCKET: string;
+    REGION: string;
   }
 }

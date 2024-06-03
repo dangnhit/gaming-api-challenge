@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 
-import { create, findOne, remove, update } from './user-item.service';
+import { create, find, findOne, remove, update } from './user-item.service';
 
 export const createUserItem = async (req: Request, res: Response, next: NextFunction) => {
   const body = req.body;
@@ -52,6 +52,25 @@ export const deleteUserItem = async (req: Request, res: Response, next: NextFunc
   try {
     await remove(id);
     return res.success(StatusCodes.OK, 'Deleted user item successfully');
+  } catch (error) {
+    return next(error);
+  }
+};
+
+export const findAllUserItems = async (req: Request, res: Response, next: NextFunction) => {
+  const { id } = req.jwtPayload;
+  const query = req.query;
+
+  try {
+    const { users, total } = await find(query, id);
+
+    return res.success(StatusCodes.OK, 'Get all users items successfully', {
+      data: users,
+      total,
+      page: query.page,
+      limit: query.limit,
+      totalPages: Math.ceil(total / parseInt(query.limit as string)),
+    });
   } catch (error) {
     return next(error);
   }

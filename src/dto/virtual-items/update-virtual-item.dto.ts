@@ -1,5 +1,5 @@
-import { IsBoolean, IsDate, IsNotEmpty, IsOptional, IsString } from 'class-validator';
-import { GameGenre, VirtualItemLevel } from 'utils/types';
+import { IsBoolean, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import { VirtualItemLevel } from 'utils/types';
 
 export class UpdateVirtualItemDto {
   @IsString()
@@ -14,7 +14,7 @@ export class UpdateVirtualItemDto {
   @IsOptional()
   isRarity: boolean;
 
-  @IsDate()
+  @IsNumber()
   @IsOptional()
   level: VirtualItemLevel;
 }
